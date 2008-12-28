@@ -1,0 +1,6 @@
+# -*- yaml -*-
+# Revision history for Binding
+
+0.01:
+  - Initial release.
+  - Implement Binding->of_caller
