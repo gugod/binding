@@ -44,61 +44,75 @@ __END__
 
 =head1 NAME
 
-Binding - [One line description of module's purpose here]
-
+Binding - eval with variable binding of caller stacks.
 
 =head1 VERSION
 
 This document describes Binding version 0.01
 
-
 =head1 SYNOPSIS
 
     use Binding;
 
+    sub inc_x {
+        my $b = Binding->of_caller;
+        $b->eval("$x + 1");
+    }
+
+    sub fortytwo {
+        my $x = 41;
+        inc_x;
+    }
+
+    sub two {
+        my $x = 1;
+        inc_x;
+    }
+
+    # You probably get the idea now...
 
 =head1 DESCRIPTION
 
+This module can help when you need to eval code with caller's variable
+binding. It's similar to Tcl's uplevel function. The name comes from
+the Binding class of Ruby language.
+
+It's not doing much yet but let you grab caller variables.
 
 =head1 INTERFACE 
-
 
 =over
 
 =item of_caller([ $level ])
 
+One of the constructors. The C<$level> parameter is optional and
+defaults to 1, which means one level up in the stack. The returned
+value is a object of C<Binding> class, which can latter be invoked
+with C<eval> method.
+
 =item eval( $code_str )
 
+An instance method that evals code in C<$code_str>. Block form of eval
+is not accepted. Variables used in $code_str will be referenced to the
+one lives the given caller frame.
+
+    # calculate $x + 5
+    sub x_add_five {
+        # notice the single quotes here.
+        Binding->of_caller->eval('$x + 5');
+    }
+
+    {
+        my $x = 3;
+        my $y = add_five;
+    }
+
 =back
-
-=head1 DIAGNOSTICS
-
-=over
-
-=item C<< Error message here, perhaps with %s placeholders >>
-
-[Description of error here]
-
-=item C<< Another error message here >>
-
-[Description of error here]
-
-[Et cetera, et cetera]
-
-=back
-
-
-=head1 CONFIGURATION AND ENVIRONMENT
-
-Binding requires no configuration files or environment variables.
 
 =head1 DEPENDENCIES
 
-None.
+L<PadWalker>, L<Data::Dump>, L<Devel::Caller>
 
-=head1 INCOMPATIBILITIES
-
-None reported.
 
 =head1 BUGS AND LIMITATIONS
 
@@ -108,6 +122,34 @@ Please report any bugs or feature requests to
 C<bug-binding@rt.cpan.org>, or through the web interface at
 L<http://rt.cpan.org>.
 
+The returned object of C<< Binding->of_caller >> need to be used
+immediately, or at least in the same frame of its construction, which means
+that this doesn't do what it means yet:
+
+    sub add {
+        my $x = 5;
+        my $b = Binding->of_caller;
+
+        # Expect the binding '$x' is to the one in caller of add()
+        add_x($b);
+    }
+
+
+    sub add_x {
+        my $binding = shift;
+
+        # But this $x is referring to the one in add()
+        $binding->eval('$x + 1')
+    }
+
+
+    my $x = 3;
+    add; # returns 6 instead of 4;
+
+=head1 SEE ALSO
+
+The standard Binding class in Ruby core: L<http://www.ruby-doc.org/core/classes/Binding.html>,
+and the extended Binding class L<http://extensions.rubyforge.org/rdoc/classes/Binding.html>.
 
 =head1 AUTHOR
 
