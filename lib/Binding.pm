@@ -56,7 +56,7 @@ This document describes Binding version 0.01
 
     sub inc_x {
         my $b = Binding->of_caller;
-        $b->eval("$x + 1");
+        $b->eval('$x + 1');
     }
 
     sub fortytwo {
@@ -134,14 +134,12 @@ that this doesn't do what it means yet:
         add_x($b);
     }
 
-
     sub add_x {
         my $binding = shift;
 
         # But this $x is referring to the one in add()
         $binding->eval('$x + 1')
     }
-
 
     my $x = 3;
     add; # returns 6 instead of 4;
