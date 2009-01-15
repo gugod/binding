@@ -5,6 +5,8 @@ use strict;
 use PadWalker qw(peek_my peek_sub closed_over);
 use Devel::Caller qw(caller_cv);
 use Data::Dump qw(pp);
+use Devel::LexAlias qw(lexalias);
+use Data::Bind;
 
 use 5.008;
 
@@ -27,17 +29,37 @@ sub eval {
 
     my $vars = peek_my( $self->{level} );
 
-    # my $vars = closed_over( $self->{caller_cv} );
-    # pp $self;
     my $var_declare = "";
     for my $varname (keys %$vars) {
         $var_declare .= "my $varname = " . pp(${$vars->{$varname}}) . ";";
     }
     my $code = "$var_declare; $code_str";
     eval $code;
-    
 }
 
+sub var {
+    my ($self, $varname) = @_;
+
+    my $level = 0;
+    while ($level < 100) {
+        my $vars = peek_my($level);
+        if (exists $vars->{$varname}) {
+            my $varref = $vars->{$varname};
+            if (ref($varref) eq 'SCALAR') {
+                return $$varref;
+            }
+            elsif (ref($varref) eq 'ARRAY') {
+                return @$varref;
+            }
+            elsif (ref($varref) eq 'HASH') {
+                return %$varref;
+            }
+        }
+        $level++;
+    }
+
+    die "Unknown var: $varname";
+}
 
 1; 
 __END__
