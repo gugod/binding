@@ -5,8 +5,6 @@ use strict;
 use PadWalker qw(peek_my peek_sub closed_over);
 use Devel::Caller qw(caller_cv);
 use Data::Dump qw(pp);
-use Devel::LexAlias qw(lexalias);
-use Data::Bind;
 
 use 5.008;
 
@@ -40,8 +38,7 @@ sub eval {
 sub var {
     my ($self, $varname) = @_;
 
-    my $level = 0;
-    while ($level < 100) {
+    for (my $level = $self->{level}; $level < 100; $level++) {
         my $vars = peek_my($level);
         if (exists $vars->{$varname}) {
             my $varref = $vars->{$varname};
@@ -55,7 +52,6 @@ sub var {
                 return %$varref;
             }
         }
-        $level++;
     }
 
     die "Unknown var: $varname";
@@ -128,6 +124,10 @@ one lives the given caller frame.
         my $x = 3;
         my $y = add_five;
     }
+
+=item var( $name )
+
+Return the value of the variable named $name in the caller scope.
 
 =back
 
