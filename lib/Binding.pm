@@ -127,7 +127,7 @@ one lives the given caller frame.
 
 =item var( $name )
 
-Return the value of the variable named $name in the caller scope.
+Return the value of the variable named $name in the specified scope.
 
 =back
 
