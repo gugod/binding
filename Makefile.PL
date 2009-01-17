@@ -7,7 +7,7 @@ all_from 'lib/Binding.pm';
 build_requires  'Test::More'        => '0.42';
 
 tests 't/*.t';
-author_tests 'xt';
+author_tests 'xt/*.t';
 
 WriteAll;
 

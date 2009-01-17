@@ -1,6 +1,9 @@
 # -*- yaml -*-
 # Revision history for Binding
 
+0.02:
+  - add a ->var method
+
 0.01:
   - Initial release.
   - Implement Binding->of_caller
