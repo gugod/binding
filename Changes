@@ -1,6 +1,9 @@
 # -*- yaml -*-
 # Revision history for Binding
 
+0.03:
+  - fix dependency
+
 0.02:
   - add a ->var method
 
