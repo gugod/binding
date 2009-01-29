@@ -2,7 +2,7 @@ package Binding;
 
 use warnings;
 use strict;
-use PadWalker qw(peek_my peek_sub closed_over);
+use PadWalker qw(peek_my peek_our peek_sub closed_over);
 use Devel::Caller qw(caller_cv);
 use Data::Dump qw(pp);
 
@@ -56,6 +56,19 @@ sub var {
 
     die "Unknown var: $varname";
 }
+
+sub my_vars {
+    my ($self) = @_;
+    my $vars = peek_my($self->{level});
+    return $vars;
+}
+
+sub our_vars {
+    my ($self) = @_;
+    my $vars = peek_our($self->{level});
+    return $vars;
+}
+
 
 1; 
 __END__
