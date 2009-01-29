@@ -16,7 +16,9 @@ MANIFEST
 META.yml			# Will be created by "make dist"
 README
 t/00.load.t
+t/my_vars.t
 t/of_caller.t
+t/our_vars.t
 t/passing-binding-object.t
 t/single_var.t
 xt/pod-coverage.t
