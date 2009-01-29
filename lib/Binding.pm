@@ -142,6 +142,25 @@ one lives the given caller frame.
 
 Return the value of the variable named $name in the specified scope.
 
+=item my_vars
+
+Returns all variables declared with "my" in the given binding.
+
+Returns a hashref, which keys are variable names and values are
+references to variable values.
+
+See C<peek_my> function in L<PadWalker>.
+
+=item our_vars
+
+Returns all variables declared with "our" that's visible in the given
+binding.
+
+Returns a hashref, which keys are variable names and values are
+references to variable values.
+
+See C<peek_our> function in L<PadWalker>.
+
 =back
 
 =head1 DEPENDENCIES
