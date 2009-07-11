@@ -8,7 +8,7 @@ use Data::Dump qw(pp);
 
 use 5.008;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 sub of_caller {
     my ($class, $level) = @_;
