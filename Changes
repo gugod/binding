@@ -1,6 +1,9 @@
 # -*- yaml -*-
 # Revision history for Binding
 
+0.05:
+  - fix the 'var' method where the requested variable is an blessed object.
+
 0.04:
   - add my_vars and our_vars methods
 
