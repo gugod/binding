@@ -42,7 +42,7 @@ sub var {
         my $vars = peek_my($level);
         if (exists $vars->{$varname}) {
             my $varref = $vars->{$varname};
-            if (ref($varref) eq 'SCALAR') {
+            if (ref($varref) eq 'SCALAR' || ref($varref) eq 'REF') {
                 return $$varref;
             }
             elsif (ref($varref) eq 'ARRAY') {
@@ -70,7 +70,7 @@ sub our_vars {
 }
 
 
-1; 
+1;
 __END__
 
 =head1 NAME
@@ -110,7 +110,7 @@ the Binding class of Ruby language.
 
 It's not doing much yet but let you grab caller variables.
 
-=head1 INTERFACE 
+=head1 INTERFACE
 
 =over
 
