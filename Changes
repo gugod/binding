@@ -1,6 +1,9 @@
 # -*- yaml -*-
 # Revision history for Binding
 
+0.06:
+  - fix dependency
+
 0.05:
   - fix the 'var' method where the requested variable is an blessed object.
 
