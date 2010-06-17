@@ -135,7 +135,7 @@ one lives the given caller frame.
 
     {
         my $x = 3;
-        my $y = add_five;
+        my $y = x_add_five;
     }
 
 =item var( $name )
